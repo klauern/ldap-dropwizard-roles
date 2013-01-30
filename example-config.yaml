@@ -1,0 +1,44 @@
+logging:
+  # Settings for logging to stdout.
+  console:
+    # If true, write log statements to stdout.
+    enabled: true
+    # Do not display log statements below this threshold to stdout.
+    threshold: ALL
+
+ldap:
+
+  server: some-ldap-server.com
+   
+  # SSL Port
+  port: 636
+
+  # User to authenticate users with
+  userDn: CN=authenticatorUser,OU=Service,OU=Accounts,DC=Business,DC=Awesomeness
+
+  password: PUT_YOUR_PASSWORD_HERE
+
+  # Search base for User accounts
+  searchDn: OU=Accounts,DC=Business,DC=Awesomeness
+
+  # Role DN to search for users with
+  rolesDn: OU=LDAP,OU=Groups,DC=Business,DC=Awesomeness
+
+http:
+
+  # can also set to nonblocking+ssl. See the following link for details:
+  # https://github.com/codahale/dropwizard/blob/46fda001ac75726ba03fbb01cea0dd60dd3a6b7b/dropwizard-example/example.yml#L35-L40
+  connectorType: legacy+ssl
+
+  # whatever you want
+  port: 8443
+  
+  ssl:
+
+    # you can create your own with keytool:
+    # keytool -genkey -alias something -keystore example.jks
+    keyStore: ./example.jks
+    
+    keyStorePassword: example
+    
+    keyStoreType: JKS

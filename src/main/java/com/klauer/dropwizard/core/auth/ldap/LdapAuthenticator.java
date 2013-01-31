@@ -19,10 +19,8 @@ import com.unboundid.ldap.sdk.SearchRequest;
 import com.unboundid.ldap.sdk.SearchResult;
 import com.unboundid.ldap.sdk.SearchResultEntry;
 import com.unboundid.ldap.sdk.SearchScope;
-import com.unboundid.util.ResultCodeCounter;
 import com.yammer.dropwizard.auth.AuthenticationException;
 import com.yammer.dropwizard.auth.Authenticator;
-import com.yammer.dropwizard.auth.basic.BasicCredentials;
 
 /**
  * An authentication scheme that takes an existing connection to an LDAP server

@@ -2,8 +2,6 @@ package com.klauer.dropwizard.core.auth.ldap;
 
 import java.security.GeneralSecurityException;
 
-import javax.net.ssl.SSLSocketFactory;
-
 import org.apache.log4j.Logger;
 
 import com.unboundid.ldap.sdk.LDAPConnection;

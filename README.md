@@ -55,27 +55,27 @@ The `@AuthRolesAllowed` annotation can be used in two ways:
 To protect a resource:
 
 ```java
-        @GET
-        @Path("/authenticate")
-        public String authenticate(@AuthRolesAllowed User user) {
-            StringBuffer message = new StringBuffer("You've Authenticated!\n");
-            message.append("Your Roles include:\n");
-            for (String role : user.getRoles()) {
-                message.append(role);
-                message.append("\n");
-            }
-            return message.toString();
-        }
+@GET
+@Path("/authenticate")
+public String authenticate(@AuthRolesAllowed User user) {
+    StringBuffer message = new StringBuffer("You've Authenticated!\n");
+    message.append("Your Roles include:\n");
+    for (String role : user.getRoles()) {
+        message.append(role);
+        message.append("\n");
+    }
+    return message.toString();
+}
 ```
 
 To limit access to a list of LDAP roles
 
 ```java
-        @GET
-        @Path("/not-allowed-in")
-        public String validateAgainstRoles(@AuthRolesAllowed({"LDAP_ROLE", "ANOTHER_ROLE"}) User user) {
-            return "You must have gotten through with one of the two roles this app required here.  Congratulations";
-        }
+@GET
+@Path("/not-allowed-in")
+public String validateAgainstRoles(@AuthRolesAllowed({"LDAP_ROLE", "ANOTHER_ROLE"}) User user) {
+    return "You must have gotten through with one of the two roles this app required here.  Congratulations";
+}
 ```
 
 

@@ -18,42 +18,42 @@ import com.unboundid.util.ssl.TrustAllTrustManager;
 public class LdapConnectionFactory {
 
     public LdapConnectionFactory(String server, int port, String userDN,
-	    String password) {
-	this.server = server;
-	this.port = port;
-	this.userDN = userDN;
-	this.password = password;
+            String password) {
+        this.server = server;
+        this.port = port;
+        this.userDN = userDN;
+        this.password = password;
     }
 
     public LDAPConnection getLDAPConnection() throws LDAPException {
-	return getLDAPConnection(userDN, password);
+        return getLDAPConnection(userDN, password);
     }
 
     public LDAPConnection getLDAPConnection(String userDN, String password)
-	    throws LDAPException {
-	// Use the following if your LDAP server doesn't have a valid
-	// certificate.
-	SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
+        throws LDAPException {
+        // Use the following if your LDAP server doesn't have a valid
+    // certificate.
+        SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
 
-	LDAPConnection ldapConnection = null;
-	try {
-	    ldapConnection = new LDAPConnection(
-		    sslUtil.createSSLSocketFactory());
-	} catch (GeneralSecurityException gse) {
-	    logger.error("Couldn't create SSL socket factory", gse);
-	}
+        LDAPConnection ldapConnection = null;
+        try {
+            ldapConnection = new LDAPConnection(
+                    sslUtil.createSSLSocketFactory());
+        } catch (GeneralSecurityException gse) {
+            logger.error("Couldn't create SSL socket factory", gse);
+        }
 
-	// LDAPConnection ldapConnection = new
-	// LDAPConnection(SSLSocketFactory.getDefault());
+        // LDAPConnection ldapConnection = new
+        // LDAPConnection(SSLSocketFactory.getDefault());
 
-	ldapConnection.connect(server, port);
-	ldapConnection.bind(userDN, password);
+        ldapConnection.connect(server, port);
+        ldapConnection.bind(userDN, password);
 
-	return ldapConnection;
+        return ldapConnection;
     }
 
     private static final Logger logger = Logger
-	    .getLogger(LdapConnectionFactory.class);
+        .getLogger(LdapConnectionFactory.class);
 
     private final String server;
     private final int port;

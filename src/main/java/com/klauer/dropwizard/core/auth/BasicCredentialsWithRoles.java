@@ -22,10 +22,10 @@ public class BasicCredentialsWithRoles {
      *            the password
      */
     public BasicCredentialsWithRoles(String username, String password,
-	    String[] roles_allowed) {
-	this.username = checkNotNull(username);
-	this.password = checkNotNull(password);
-	this.roles_allowed = checkNotNull(roles_allowed);
+            String[] roles_allowed) {
+        this.username = checkNotNull(username);
+        this.password = checkNotNull(password);
+        this.roles_allowed = checkNotNull(roles_allowed);
     }
 
     /**
@@ -34,7 +34,7 @@ public class BasicCredentialsWithRoles {
      * @return the credentials' username
      */
     public String getUsername() {
-	return username;
+        return username;
     }
 
     /**
@@ -43,54 +43,54 @@ public class BasicCredentialsWithRoles {
      * @return the credentials' password
      */
     public String getPassword() {
-	return password;
+        return password;
     }
 
     public String[] getRolesAllowed() {
-	return roles_allowed;
+        return roles_allowed;
     }
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((password == null) ? 0 : password.hashCode());
-	result = prime * result + Arrays.hashCode(roles_allowed);
-	result = prime * result
-		+ ((username == null) ? 0 : username.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+            + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + Arrays.hashCode(roles_allowed);
+        result = prime * result
+            + ((username == null) ? 0 : username.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	BasicCredentialsWithRoles other = (BasicCredentialsWithRoles) obj;
-	if (password == null) {
-	    if (other.password != null)
-		return false;
-	} else if (!password.equals(other.password))
-	    return false;
-	if (!Arrays.equals(roles_allowed, other.roles_allowed))
-	    return false;
-	if (username == null) {
-	    if (other.username != null)
-		return false;
-	} else if (!username.equals(other.username))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BasicCredentialsWithRoles other = (BasicCredentialsWithRoles) obj;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (!Arrays.equals(roles_allowed, other.roles_allowed))
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
     }
 
     @Override
     public String toString() {
-	return "BasicCredentialsWithRoles [username=" + username
-		+ ", password=" + password + ", roles_allowed="
-		+ Arrays.toString(roles_allowed) + "]";
+        return "BasicCredentialsWithRoles [username=" + username
+            + ", password=" + password + ", roles_allowed="
+            + Arrays.toString(roles_allowed) + "]";
     }
 
 }

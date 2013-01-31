@@ -14,26 +14,26 @@ public class ExampleService extends Service<ApplicationConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ApplicationConfiguration> bootstrap) {
-	bootstrap.setName("ldap-roles-authorization");
+        bootstrap.setName("ldap-roles-authorization");
     }
 
     @Override
     public void run(ApplicationConfiguration configuration,
-	    Environment environment) throws Exception {
-	final LdapConfiguration ldap = configuration.getLdapConfiguration();
+            Environment environment) throws Exception {
+        final LdapConfiguration ldap = configuration.getLdapConfiguration();
 
-	environment.addResource(new LdapRolesResource());
-	LdapConnectionFactory ldap_factory = new LdapConnectionFactory(
-		ldap.getServer(), ldap.getPort(), ldap.getUserDn(),
-		ldap.getPassword());
-	final LdapAuthenticator ldap_authenticator = new LdapAuthenticator(
-		ldap_factory, ldap.getSearchDn(), ldap.getRolesDn());
-	environment.addProvider(new LdapAuthRolesAllowedProvider<User>(
-		ldap_authenticator, "LDAP Role Authentication"));
+        environment.addResource(new LdapRolesResource());
+        LdapConnectionFactory ldap_factory = new LdapConnectionFactory(
+                ldap.getServer(), ldap.getPort(), ldap.getUserDn(),
+                ldap.getPassword());
+        final LdapAuthenticator ldap_authenticator = new LdapAuthenticator(
+                ldap_factory, ldap.getSearchDn(), ldap.getRolesDn());
+        environment.addProvider(new LdapAuthRolesAllowedProvider<User>(
+                    ldap_authenticator, "LDAP Role Authentication"));
     }
 
     public static void main(String[] args) throws Exception {
-	new ExampleService().run(args);
+        new ExampleService().run(args);
     }
 
 }

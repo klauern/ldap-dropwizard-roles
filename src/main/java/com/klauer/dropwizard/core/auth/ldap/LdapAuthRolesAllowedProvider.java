@@ -10,27 +10,27 @@ import com.sun.jersey.spi.inject.InjectableProvider;
 import com.yammer.dropwizard.auth.Authenticator;
 
 public class LdapAuthRolesAllowedProvider<T> implements
-	InjectableProvider<AuthRolesAllowed, Parameter> {
+InjectableProvider<AuthRolesAllowed, Parameter> {
 
     private final Authenticator<BasicCredentialsWithRoles, T> authenticator;
     private final String realm;
 
     public LdapAuthRolesAllowedProvider(
-	    Authenticator<BasicCredentialsWithRoles, T> authenticator,
-	    String realm) {
-	this.authenticator = authenticator;
-	this.realm = realm;
-    }
+            Authenticator<BasicCredentialsWithRoles, T> authenticator,
+            String realm) {
+        this.authenticator = authenticator;
+        this.realm = realm;
+            }
 
     @Override
     public ComponentScope getScope() {
-	return ComponentScope.PerRequest;
+        return ComponentScope.PerRequest;
     }
 
     @Override
     public Injectable<?> getInjectable(ComponentContext ic, AuthRolesAllowed a,
-	    Parameter c) {
-	return new LdapAuthRolesAllowedInjectable<T>(authenticator, a, realm);
+            Parameter c) {
+        return new LdapAuthRolesAllowedInjectable<T>(authenticator, a, realm);
     }
 
 }

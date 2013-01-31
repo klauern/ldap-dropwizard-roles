@@ -34,7 +34,7 @@ import com.yammer.dropwizard.auth.basic.BasicCredentials;
  * in your LDAP configuration.
  */
 public class LdapAuthenticator implements
-	Authenticator<BasicCredentialsWithRoles, User> {
+Authenticator<BasicCredentialsWithRoles, User> {
 
     /**
      * Creates a new authenticator
@@ -47,120 +47,120 @@ public class LdapAuthenticator implements
      *            the base DN in which to lookup roles for a user.
      */
     public LdapAuthenticator(LdapConnectionFactory connectionFactory,
-	    String searchDN, String rolesDN) {
-	this.connectionFactory = connectionFactory;
-	this.searchDN = searchDN;
-	this.rolesDN = rolesDN;
+            String searchDN, String rolesDN) {
+        this.connectionFactory = connectionFactory;
+        this.searchDN = searchDN;
+        this.rolesDN = rolesDN;
     }
 
     @Override
     public Optional<User> authenticate(BasicCredentialsWithRoles credentials)
-	    throws AuthenticationException {
-	try {
-	    String username = sanitizeUsername(credentials.getUsername());
-	    String userDN = dnFromUsername(username);
+    throws AuthenticationException {
+    try {
+        String username = sanitizeUsername(credentials.getUsername());
+        String userDN = dnFromUsername(username);
 
-	    verifyCredentials(credentials, userDN);
+        verifyCredentials(credentials, userDN);
 
-	    Set<String> roles = rolesFromDN(userDN);
+        Set<String> roles = rolesFromDN(userDN);
 
-	    if (credentials.getRolesAllowed().length > 0) {
-		verifyRolesPresent(credentials, roles);
-	    }
-	    return Optional.fromNullable(new User(username, roles));
-	} catch (LDAPException le) {
-	    if (invalidCredentials(le)) {
-		throw new AuthenticationException(
-			"Could not connect to LDAP server", le);
-	    } else {
-		return Optional.absent();
-	    }
-	}
+        if (credentials.getRolesAllowed().length > 0) {
+            verifyRolesPresent(credentials, roles);
+        }
+        return Optional.fromNullable(new User(username, roles));
+    } catch (LDAPException le) {
+        if (invalidCredentials(le)) {
+            throw new AuthenticationException(
+                    "Could not connect to LDAP server", le);
+        } else {
+            return Optional.absent();
+        }
+    }
     }
 
     private boolean invalidCredentials(LDAPException le) {
-	return le.getResultCode() != ResultCode.INVALID_CREDENTIALS;
+        return le.getResultCode() != ResultCode.INVALID_CREDENTIALS;
     }
 
     private void verifyCredentials(BasicCredentialsWithRoles credentials,
-	    String userDN) throws LDAPException {
-	
-	// Throws an authentication exception if user's l/p fail
-	LDAPConnection authenticatedConnection = connectionFactory.getLDAPConnection(userDN, credentials.getPassword());
-	authenticatedConnection.close();
+            String userDN) throws LDAPException {
+
+        // Throws an authentication exception if user's l/p fail
+        LDAPConnection authenticatedConnection = connectionFactory.getLDAPConnection(userDN, credentials.getPassword());
+        authenticatedConnection.close();
 
     }
 
     private void verifyRolesPresent(BasicCredentialsWithRoles credentials,
-	    Set<String> roles) throws LDAPException {
-	// TODO Auto-generated method stub
-	boolean authorized = false;
-	
-	// Assumed the above passes and no exception thrown, if there's no @annotated roles to check,
-	// we're done
-	if (credentials.getRolesAllowed().length == 0) {
-	    authorized = true;
-	}
-	// otherwise, roll through the list of roles provided to see if they are present in the assigned perms
-	for (String role : credentials.getRolesAllowed()) {
-	    if (roles.contains(role)) {
-		authorized = true;
-	    }
-	}
-	
-	if (!authorized) {
-	    throw new LDAPException(ResultCode.INVALID_CREDENTIALS, "Not Authorized");
-	}
-	
+            Set<String> roles) throws LDAPException {
+        // TODO Auto-generated method stub
+        boolean authorized = false;
+
+        // Assumed the above passes and no exception thrown, if there's no @annotated roles to check,
+        // we're done
+        if (credentials.getRolesAllowed().length == 0) {
+            authorized = true;
+        }
+        // otherwise, roll through the list of roles provided to see if they are present in the assigned perms
+        for (String role : credentials.getRolesAllowed()) {
+            if (roles.contains(role)) {
+                authorized = true;
+            }
+        }
+
+        if (!authorized) {
+            throw new LDAPException(ResultCode.INVALID_CREDENTIALS, "Not Authorized");
+        }
+
     }
 
     private String dnFromUsername(String username) throws LDAPException {
-	LDAPConnection connection = connectionFactory.getLDAPConnection();
+        LDAPConnection connection = connectionFactory.getLDAPConnection();
 
-	try {
-	    SearchRequest searchRequest = new SearchRequest(searchDN,
-		    SearchScope.SUB, "(cn=" + username + ")");
+        try {
+            SearchRequest searchRequest = new SearchRequest(searchDN,
+                    SearchScope.SUB, "(cn=" + username + ")");
 
-	    SearchResult sr = connection.search(searchRequest);
+            SearchResult sr = connection.search(searchRequest);
 
-	    if (sr.getEntryCount() == 0) {
-		throw new LDAPException(ResultCode.INVALID_CREDENTIALS);
-	    }
+            if (sr.getEntryCount() == 0) {
+                throw new LDAPException(ResultCode.INVALID_CREDENTIALS);
+            }
 
-	    return sr.getSearchEntries().get(0).getDN();
-	} finally {
-	    connection.close();
-	}
+            return sr.getSearchEntries().get(0).getDN();
+        } finally {
+            connection.close();
+        }
     }
 
     private Set<String> rolesFromDN(String userDN) throws LDAPException {
-	LDAPConnection connection = connectionFactory.getLDAPConnection();
-	SearchRequest searchRequest = new SearchRequest(rolesDN,
-		SearchScope.SUB, Filter.createEqualityFilter("member", userDN));
-	Set<String> applicationAccessSet = new LinkedHashSet<String>();
+        LDAPConnection connection = connectionFactory.getLDAPConnection();
+        SearchRequest searchRequest = new SearchRequest(rolesDN,
+                SearchScope.SUB, Filter.createEqualityFilter("member", userDN));
+        Set<String> applicationAccessSet = new LinkedHashSet<String>();
 
-	try {
-	    SearchResult sr = connection.search(searchRequest);
+        try {
+            SearchResult sr = connection.search(searchRequest);
 
-	    for (SearchResultEntry sre : sr.getSearchEntries()) {
-		try {
-		    X500Name myName = new X500Name(sre.getDN());
-		    applicationAccessSet.add(myName.getCommonName());
-		} catch (IOException e) {
-		    LOG.error(
-			    "Could not create X500 Name for role:"
-				    + sre.getDN(), e);
-		}
-	    }
-	} finally {
-	    connection.close();
-	}
+            for (SearchResultEntry sre : sr.getSearchEntries()) {
+                try {
+                    X500Name myName = new X500Name(sre.getDN());
+                    applicationAccessSet.add(myName.getCommonName());
+                } catch (IOException e) {
+                    LOG.error(
+                            "Could not create X500 Name for role:"
+                            + sre.getDN(), e);
+                }
+            }
+        } finally {
+            connection.close();
+        }
 
-	return applicationAccessSet;
+        return applicationAccessSet;
     }
 
     private String sanitizeUsername(String username) {
-	return username.replaceAll("[^A-Za-z0-9-_.]", "");
+        return username.replaceAll("[^A-Za-z0-9-_.]", "");
     }
 
     private final static Logger LOG = Logger.getLogger(LdapAuthenticator.class);

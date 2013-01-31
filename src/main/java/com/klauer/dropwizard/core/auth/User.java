@@ -8,16 +8,16 @@ public class User {
     private final Set<String> roles;
 
     public User(String name, Set<String> roles) {
-	this.name = name;
-	this.roles = roles;
+        this.name = name;
+        this.roles = roles;
     }
 
     public String getName() {
-	return this.name;
+        return this.name;
     }
 
     public Set<String> getRoles() {
-	return this.roles;
+        return this.roles;
     }
 
 }

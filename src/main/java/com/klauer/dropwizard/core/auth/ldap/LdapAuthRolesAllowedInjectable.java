@@ -17,7 +17,7 @@ import com.yammer.dropwizard.auth.basic.BasicCredentials;
 
 @Provider
 public class LdapAuthRolesAllowedInjectable<T> extends
-	AbstractHttpContextInjectable<T> {
+AbstractHttpContextInjectable<T> {
     private static final String PREFIX = "Basic";
     private static final String HEADER_NAME = "WWW-Authenticate";
     private static final String HEADER_VALUE = PREFIX + " realm=\"%s\"";
@@ -26,42 +26,42 @@ public class LdapAuthRolesAllowedInjectable<T> extends
     private final AuthRolesAllowed allowed;
 
     public LdapAuthRolesAllowedInjectable(
-	    Authenticator<BasicCredentialsWithRoles, T> authenticator,
-	    AuthRolesAllowed allowed, String realm) {
-	this.authenticator = authenticator;
-	this.allowed = allowed;
-	this.realm = realm;
-    }
+            Authenticator<BasicCredentialsWithRoles, T> authenticator,
+            AuthRolesAllowed allowed, String realm) {
+        this.authenticator = authenticator;
+        this.allowed = allowed;
+        this.realm = realm;
+            }
 
     public Authenticator<BasicCredentialsWithRoles, T> getAuthenticator() {
-	return authenticator;
+        return authenticator;
     }
 
     @Override
     public T getValue(HttpContext c) {
-	BasicCredentials bc = BasicAuth.getCredentials(c);
+        BasicCredentials bc = BasicAuth.getCredentials(c);
 
-	if (bc != null && bc.getUsername() != null && bc.getPassword() != null) {
-	    BasicCredentialsWithRoles credentials = new BasicCredentialsWithRoles(
-		    bc.getUsername(), bc.getPassword(), allowed.value());
+        if (bc != null && bc.getUsername() != null && bc.getPassword() != null) {
+            BasicCredentialsWithRoles credentials = new BasicCredentialsWithRoles(
+                    bc.getUsername(), bc.getPassword(), allowed.value());
 
-	    Optional<T> result;
-	    try {
-		result = authenticator.authenticate(credentials);
-	    } catch (AuthenticationException e) {
-		throw new WebApplicationException(
-			Response.Status.INTERNAL_SERVER_ERROR);
-	    }
-	    if (result.isPresent()) {
-		return result.get();
-	    }
-	}
+            Optional<T> result;
+            try {
+                result = authenticator.authenticate(credentials);
+            } catch (AuthenticationException e) {
+                throw new WebApplicationException(
+                        Response.Status.INTERNAL_SERVER_ERROR);
+            }
+            if (result.isPresent()) {
+                return result.get();
+            }
+        }
 
-	throw new WebApplicationException(Response
-		.status(Response.Status.UNAUTHORIZED)
-		.header(HEADER_NAME, String.format(HEADER_VALUE, realm))
-		.entity("Credentials are required to access this resource.")
-		.type(MediaType.TEXT_PLAIN_TYPE).build());
+        throw new WebApplicationException(Response
+                .status(Response.Status.UNAUTHORIZED)
+                .header(HEADER_NAME, String.format(HEADER_VALUE, realm))
+                .entity("Credentials are required to access this resource.")
+                .type(MediaType.TEXT_PLAIN_TYPE).build());
     }
 
 }

@@ -19,7 +19,7 @@ public class ApplicationConfiguration extends Configuration {
     private LdapConfiguration ldap = new LdapConfiguration();
 
     public LdapConfiguration getLdapConfiguration() {
-	return ldap;
+        return ldap;
     }
 
 }

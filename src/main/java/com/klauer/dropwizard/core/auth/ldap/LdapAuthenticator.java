@@ -31,6 +31,7 @@ import com.yammer.dropwizard.auth.Authenticator;
  * This is a reasonably complicated setup, but allows for a lot of flexibility
  * in your LDAP configuration.
  */
+@SuppressWarnings("restriction")
 public class LdapAuthenticator implements
         Authenticator<BasicCredentialsWithRoles, User> {
 

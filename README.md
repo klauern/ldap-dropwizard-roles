@@ -9,6 +9,7 @@ sources that tie together:
 - Roles-based Injectibles
 - SSL-enabled
 
+
 Configuration
 -------------
 See the [`example-config.yaml`](https://github.com/klauern/ldap-dropwizard-roles/blob/master/example-config.yaml) for details pertinent to setting up the project for
@@ -16,6 +17,25 @@ your own LDAP server.  Dropwizard is an incredibly flexible set of helpers,
 utilities, and wrappers around some of the best Java libraries out there, so
 this app is more of that kind of goodness.
 
+Running the app
+---------------
+Running the app is simple.  Create your own copy of the `example-config.yaml`, replacing the
+passwords, ldap configs, etc.
+
+    mvn clean package
+
+Then run the app as Dropwizard does:
+
+    java -jar target/ldap-dropwizard-roles-1.0.0-SNAPSHOT.jar server config.yaml
+
+I've provided a few RESTful resources to test out your configuration:
+
+    https://localhost:8443/noauth           - Just tests the SSL and skips any authentication
+    https://localhost:8443/not-allowed-in   - Authenticates your username against the LDAP
+                                              server and tests against a couple LDAP roles I 
+                                              wrote in (you can change to your own)
+    https://localhost:8443/authenticate     - Authenticate against the LDAP server and
+                                              enumerate the roles for it (tests your groupDN)
 
 Project Layout
 --------------

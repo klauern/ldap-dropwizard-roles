@@ -49,6 +49,35 @@ which is implemented with a provider and injectible: [`LdapAuthRolesAllowedInjec
 and [`LdapAuthRolesAllowedProvider`](https://github.com/klauern/ldap-dropwizard-roles/blob/master/src/main/java/com/klauer/dropwizard/core/auth/ldap/LdapAuthRolesAllowedProvider.java).  Coda Hale has a [great article explaining
 how injection providers work](http://codahale.com/what-makes-jersey-interesting-injection-providers/).
 
+### `@AuthRolesAllowed`
+The `@AuthRolesAllowed` annotation can be used in two ways:
+
+To protect a resource:
+
+```java
+        @GET
+        @Path("/authenticate")
+        public String authenticate(@AuthRolesAllowed User user) {
+            StringBuffer message = new StringBuffer("You've Authenticated!\n");
+            message.append("Your Roles include:\n");
+            for (String role : user.getRoles()) {
+                message.append(role);
+                message.append("\n");
+            }
+            return message.toString();
+        }
+```
+
+To limit access to a list of LDAP roles
+
+```java
+        @GET
+        @Path("/not-allowed-in")
+        public String validateAgainstRoles(@AuthRolesAllowed({"LDAP_ROLE", "ANOTHER_ROLE"}) User user) {
+            return "You must have gotten through with one of the two roles this app required here.  Congratulations";
+        }
+```
+
 
 Caveat Emptor
 ---------------

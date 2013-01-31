@@ -30,9 +30,9 @@ public class LdapConnectionFactory {
     }
 
     public LDAPConnection getLDAPConnection(String userDN, String password)
-        throws LDAPException {
+            throws LDAPException {
         // Use the following if your LDAP server doesn't have a valid
-    // certificate.
+        // certificate.
         SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
 
         LDAPConnection ldapConnection = null;
@@ -53,7 +53,7 @@ public class LdapConnectionFactory {
     }
 
     private static final Logger logger = Logger
-        .getLogger(LdapConnectionFactory.class);
+            .getLogger(LdapConnectionFactory.class);
 
     private final String server;
     private final int port;

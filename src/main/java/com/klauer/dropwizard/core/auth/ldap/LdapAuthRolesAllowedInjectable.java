@@ -17,7 +17,7 @@ import com.yammer.dropwizard.auth.basic.BasicCredentials;
 
 @Provider
 public class LdapAuthRolesAllowedInjectable<T> extends
-AbstractHttpContextInjectable<T> {
+        AbstractHttpContextInjectable<T> {
     private static final String PREFIX = "Basic";
     private static final String HEADER_NAME = "WWW-Authenticate";
     private static final String HEADER_VALUE = PREFIX + " realm=\"%s\"";
@@ -31,7 +31,7 @@ AbstractHttpContextInjectable<T> {
         this.authenticator = authenticator;
         this.allowed = allowed;
         this.realm = realm;
-            }
+    }
 
     public Authenticator<BasicCredentialsWithRoles, T> getAuthenticator() {
         return authenticator;

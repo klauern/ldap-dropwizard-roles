@@ -34,7 +34,7 @@ import com.yammer.dropwizard.auth.basic.BasicCredentials;
  * in your LDAP configuration.
  */
 public class LdapAuthenticator implements
-Authenticator<BasicCredentialsWithRoles, User> {
+        Authenticator<BasicCredentialsWithRoles, User> {
 
     /**
      * Creates a new authenticator
@@ -55,27 +55,27 @@ Authenticator<BasicCredentialsWithRoles, User> {
 
     @Override
     public Optional<User> authenticate(BasicCredentialsWithRoles credentials)
-    throws AuthenticationException {
-    try {
-        String username = sanitizeUsername(credentials.getUsername());
-        String userDN = dnFromUsername(username);
+            throws AuthenticationException {
+        try {
+            String username = sanitizeUsername(credentials.getUsername());
+            String userDN = dnFromUsername(username);
 
-        verifyCredentials(credentials, userDN);
+            verifyCredentials(credentials, userDN);
 
-        Set<String> roles = rolesFromDN(userDN);
+            Set<String> roles = rolesFromDN(userDN);
 
-        if (credentials.getRolesAllowed().length > 0) {
-            verifyRolesPresent(credentials, roles);
+            if (credentials.getRolesAllowed().length > 0) {
+                verifyRolesPresent(credentials, roles);
+            }
+            return Optional.fromNullable(new User(username, roles));
+        } catch (LDAPException le) {
+            if (invalidCredentials(le)) {
+                throw new AuthenticationException(
+                        "Could not connect to LDAP server", le);
+            } else {
+                return Optional.absent();
+            }
         }
-        return Optional.fromNullable(new User(username, roles));
-    } catch (LDAPException le) {
-        if (invalidCredentials(le)) {
-            throw new AuthenticationException(
-                    "Could not connect to LDAP server", le);
-        } else {
-            return Optional.absent();
-        }
-    }
     }
 
     private boolean invalidCredentials(LDAPException le) {
@@ -86,7 +86,8 @@ Authenticator<BasicCredentialsWithRoles, User> {
             String userDN) throws LDAPException {
 
         // Throws an authentication exception if user's l/p fail
-        LDAPConnection authenticatedConnection = connectionFactory.getLDAPConnection(userDN, credentials.getPassword());
+        LDAPConnection authenticatedConnection = connectionFactory
+                .getLDAPConnection(userDN, credentials.getPassword());
         authenticatedConnection.close();
 
     }
@@ -96,12 +97,14 @@ Authenticator<BasicCredentialsWithRoles, User> {
         // TODO Auto-generated method stub
         boolean authorized = false;
 
-        // Assumed the above passes and no exception thrown, if there's no @annotated roles to check,
+        // Assumed the above passes and no exception thrown, if there's no
+        // @annotated roles to check,
         // we're done
         if (credentials.getRolesAllowed().length == 0) {
             authorized = true;
         }
-        // otherwise, roll through the list of roles provided to see if they are present in the assigned perms
+        // otherwise, roll through the list of roles provided to see if they are
+        // present in the assigned perms
         for (String role : credentials.getRolesAllowed()) {
             if (roles.contains(role)) {
                 authorized = true;
@@ -109,7 +112,8 @@ Authenticator<BasicCredentialsWithRoles, User> {
         }
 
         if (!authorized) {
-            throw new LDAPException(ResultCode.INVALID_CREDENTIALS, "Not Authorized");
+            throw new LDAPException(ResultCode.INVALID_CREDENTIALS,
+                    "Not Authorized");
         }
 
     }
@@ -149,7 +153,7 @@ Authenticator<BasicCredentialsWithRoles, User> {
                 } catch (IOException e) {
                     LOG.error(
                             "Could not create X500 Name for role:"
-                            + sre.getDN(), e);
+                                    + sre.getDN(), e);
                 }
             }
         } finally {

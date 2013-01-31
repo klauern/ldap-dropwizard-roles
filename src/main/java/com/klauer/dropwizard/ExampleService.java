@@ -29,7 +29,7 @@ public class ExampleService extends Service<ApplicationConfiguration> {
         final LdapAuthenticator ldap_authenticator = new LdapAuthenticator(
                 ldap_factory, ldap.getSearchDn(), ldap.getRolesDn());
         environment.addProvider(new LdapAuthRolesAllowedProvider<User>(
-                    ldap_authenticator, "LDAP Role Authentication"));
+                ldap_authenticator, "LDAP Role Authentication"));
     }
 
     public static void main(String[] args) throws Exception {

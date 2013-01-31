@@ -55,10 +55,10 @@ public class BasicCredentialsWithRoles {
         final int prime = 31;
         int result = 1;
         result = prime * result
-            + ((password == null) ? 0 : password.hashCode());
+                + ((password == null) ? 0 : password.hashCode());
         result = prime * result + Arrays.hashCode(roles_allowed);
         result = prime * result
-            + ((username == null) ? 0 : username.hashCode());
+                + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
@@ -89,8 +89,8 @@ public class BasicCredentialsWithRoles {
     @Override
     public String toString() {
         return "BasicCredentialsWithRoles [username=" + username
-            + ", password=" + password + ", roles_allowed="
-            + Arrays.toString(roles_allowed) + "]";
+                + ", password=" + password + ", roles_allowed="
+                + Arrays.toString(roles_allowed) + "]";
     }
 
 }

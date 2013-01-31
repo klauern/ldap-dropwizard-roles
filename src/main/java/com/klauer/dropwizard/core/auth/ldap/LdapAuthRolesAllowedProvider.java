@@ -10,7 +10,7 @@ import com.sun.jersey.spi.inject.InjectableProvider;
 import com.yammer.dropwizard.auth.Authenticator;
 
 public class LdapAuthRolesAllowedProvider<T> implements
-InjectableProvider<AuthRolesAllowed, Parameter> {
+        InjectableProvider<AuthRolesAllowed, Parameter> {
 
     private final Authenticator<BasicCredentialsWithRoles, T> authenticator;
     private final String realm;
@@ -20,7 +20,7 @@ InjectableProvider<AuthRolesAllowed, Parameter> {
             String realm) {
         this.authenticator = authenticator;
         this.realm = realm;
-            }
+    }
 
     @Override
     public ComponentScope getScope() {

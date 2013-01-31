@@ -81,7 +81,7 @@ public String validateAgainstRoles(@AuthRolesAllowed({"LDAP_ROLE", "ANOTHER_ROLE
 
 Caveat Emptor
 ---------------
-It should come as no surprise that LDAP implementations vary, and a layout that works for me is sure to not work exactly out of the box for you.  For instance, while Mr. Shay's `LdapAuthenticator` provided 90% of the work, the difference in how users are looked up required code changes.  Furthermore, in order to do role-based lookup, I eschewed a few big components of the [Dropwizard Authentication](http://dropwizard.codahale.com/manual/auth/) module and rewrote my own to include roles.
+It should come as no surprise that LDAP implementations vary, and a layout that works for me is sure to not work exactly out of the box for you.  For instance, while Mr. Shay's [`LdapAuthenticator`](https://gist.github.com/3167835#file-ldapauthenticator-java) provided 90% of the work, the difference in how users are looked up required code changes.  Furthermore, in order to do role-based lookup, I eschewed a few big components of the [Dropwizard Authentication](http://dropwizard.codahale.com/manual/auth/) module and rewrote my own to include roles.
 
 
 Example Project Layout
@@ -120,5 +120,20 @@ Simply because `tree` works in DOS and I thought it was nifty to include:
                     banner.txt
     
 
+References
+----------
+As always, no project exists in a vacuum, and I would be remiss if I didn't
+glean alot of this knowledge from people much smarter than I:
 
+  * [Xavier Shay's `LdapAuthenticator` and `LdapConnectionFactory`][xshay-ldap] - https://gist.github.com/3167835
+    * and the Google Group: https://groups.google.com/d/topic/dropwizard-user/JTHdtIrwXGc/discussion
+  * [Unboundid LDAP SDK][ldap-sdk] - https://www.unboundid.com/products/ldapsdk/
+  * [Group discussing writing your own Injection Provider][injection-prov-gg] - https://groups.google.com/d/topic/dropwizard-user/qjmNdlMbpzQ/discussion
+  * [Coda Hale's Blog on Injection Providers][inject-prov] - http://codahale.com/what-makes-jersey-interesting-injection-providers/
+  * [Gary Rowe's HmacServerAuthenticator and it's implementation](https://github.com/gary-rowe/MultiBitMerchant/tree/develop/mbm/src/main/java/org/multibit/mbm/auth/hmac) - https://github.com/gary-rowe/MultiBitMerchant/tree/develop/mbm/src/main/java/org/multibit/mbm/auth/hmac
+
+[inject-prov]: http://codahale.com/what-makes-jersey-interesting-injection-providers/
+[xshay-ldap]: https://gist.github.com/3167835
+[ldap-sdk]: https://www.unboundid.com/products/ldapsdk/
+[injection-prov-gg]: https://groups.google.com/d/topic/dropwizard-user/qjmNdlMbpzQ/discussion
 [dw]: http://dropwizard.codahale.com

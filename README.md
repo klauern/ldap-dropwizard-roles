@@ -52,7 +52,7 @@ how injection providers work](http://codahale.com/what-makes-jersey-interesting-
 ### `@AuthRolesAllowed`
 The `@AuthRolesAllowed` annotation can be used in two ways:
 
-To protect a resource:
+To protect a resource, simply add a `@AuthRolesAllowed` annotation on a `User` class:
 
 ```java
 @GET
@@ -68,7 +68,7 @@ public String authenticate(@AuthRolesAllowed User user) {
 }
 ```
 
-To limit access to a list of LDAP roles
+To limit access to a list of LDAP roles, specify them directly in the annotation:
 
 ```java
 @GET

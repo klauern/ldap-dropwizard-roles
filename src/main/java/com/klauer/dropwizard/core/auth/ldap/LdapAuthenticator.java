@@ -27,7 +27,7 @@ import com.yammer.dropwizard.auth.Authenticator;
  * and uses it to first look up a user's DN, bind with that DN and the supplied
  * password to verify the authentication, then performs a search for the user's
  * roles using the initial connection.
- * 
+ *
  * This is a reasonably complicated setup, but allows for a lot of flexibility
  * in your LDAP configuration.
  */
@@ -37,7 +37,7 @@ public class LdapAuthenticator implements
 
     /**
      * Creates a new authenticator
-     * 
+     *
      * @param connectionFactory
      * @param searchDN
      *            the base DN in which to perform a search for the user's DN by

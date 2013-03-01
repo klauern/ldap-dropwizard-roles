@@ -41,18 +41,15 @@ public class LdapConnectionFactory {
             logger.error("Couldn't create SSL socket factory", gse);
         }
 
-        // LDAPConnection ldapConnection = new
-        // LDAPConnection(SSLSocketFactory.getDefault());
-
+        /* the LDAPConnection will get thrown before reaching this if there's
+         a connection issue or some other login issue. */
         ldapConnection.connect(server, port);
         ldapConnection.bind(userDN, password);
 
         return ldapConnection;
     }
-
     private static final Logger logger = Logger
             .getLogger(LdapConnectionFactory.class);
-
     private final String server;
     private final int port;
     private final String userDN;

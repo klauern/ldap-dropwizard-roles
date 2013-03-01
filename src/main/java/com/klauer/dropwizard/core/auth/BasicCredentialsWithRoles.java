@@ -15,7 +15,7 @@ public class BasicCredentialsWithRoles {
 
     /**
      * Creates a new BasicCredentials with the given username and password.
-     * 
+     *
      * @param username
      *            the username
      * @param password
@@ -30,7 +30,7 @@ public class BasicCredentialsWithRoles {
 
     /**
      * Returns the credentials' username.
-     * 
+     *
      * @return the credentials' username
      */
     public String getUsername() {
@@ -39,7 +39,7 @@ public class BasicCredentialsWithRoles {
 
     /**
      * Returns the credentials' password.
-     * 
+     *
      * @return the credentials' password
      */
     public String getPassword() {
@@ -47,7 +47,7 @@ public class BasicCredentialsWithRoles {
     }
 
     public String[] getRolesAllowed() {
-        return roles_allowed;
+        return roles_allowed.clone();
     }
 
     @Override

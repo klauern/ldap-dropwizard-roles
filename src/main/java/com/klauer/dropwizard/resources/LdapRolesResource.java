@@ -30,7 +30,7 @@ public class LdapRolesResource {
     @GET
     @Path("/authenticate")
     public String authenticate(@AuthRolesAllowed User user) {
-        StringBuffer message = new StringBuffer("You've Authenticated!\n");
+        StringBuilder message = new StringBuilder("You've Authenticated!\n");
         message.append("Your Roles include:\n");
         for (String role : user.getRoles()) {
             message.append(role);
